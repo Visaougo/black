@@ -1,0 +1,342 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0a5d2a;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #ffd700;
+}
+
+hr {
+    border-color: #ffd700;
+    margin: 20px 0;
+}
+
+/* --- TELA DE CONFIGURAÇÃO --- */
+#setup-screen {
+    background-color: #0c7a36;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    padding: 25px;
+    max-width: 500px;
+    margin: 40px auto;
+    display: block;
+}
+
+.setup-control, #player-names-container div {
+    margin: 15px 0;
+    font-size: 1.2em;
+}
+
+#setup-screen label {
+    margin-right: 10px;
+}
+
+#setup-screen select, #setup-screen input {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#setup-screen input {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+}
+
+#btn-setup-start {
+    background-color: #008f00;
+    color: white;
+    font-size: 1.3em;
+    padding: 15px 30px;
+}
+#btn-setup-start:hover {
+    background-color: #006a00;
+}
+
+
+/* --- TELA DE JOGO --- */
+#game-area {
+    position: relative; /* ESSENCIAL para o posicionamento do baralho e das cartas */
+    overflow-x: hidden; /* Evita scroll se a animação vazar */
+}
+
+/* NOVO: Estilo do Baralho */
+#deck {
+    width: 52px; /* Largura da carta + bordas */
+    height: 72px; /* Altura da carta + bordas */
+    background-color: #bb0000;
+    border: 2px solid black;
+    border-radius: 5px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+#players-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.player-area {
+    background-color: #0c7a36;
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    min-width: 250px;
+    min-height: 220px;
+    transition: background-color 0.5s, transform 0.5s;
+    z-index: 10; /* Fica acima das cartas em trânsito */
+}
+
+/* --- ESTILOS DE SALDO E APOSTA --- */
+.player-area .balance-info {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    border-top: 1px solid #ffd700;
+    border-bottom: 1px solid #ffd700;
+    padding: 5px 0;
+    margin: 10px 0;
+}
+.player-area .balance-info span {
+    color: #5eff5e;
+}
+.player-area .current-bet {
+    font-size: 1em;
+    color: #ffc107;
+}
+
+/* --- ESTILOS (FICHAS DE APOSTA) --- */
+.betting-controls {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.chip {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 0.7em;
+    font-weight: bold;
+    padding: 0;
+    margin: 2px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.chip[data-value="10"] { background-color: #007bff; color: white; }
+.chip[data-value="25"] { background-color: #28a745; color: white; }
+.chip[data-value="100"] { background-color: #343a40; color: white; border-color: #6c757d; }
+.chip[data-value="500"] { background-color: #6f42c1; color: white; }
+
+.chip:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+.btn-clear-bet {
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    width: 100%;
+    margin-top: 5px;
+}
+.btn-clear-bet:hover {
+    background-color: #c82333;
+}
+
+
+/* --- MUDANÇA DRÁSTICA (CARTAS E MÃOS) --- */
+.hand {
+    /* Não usa mais flex */
+    position: relative; /* As cartas serão posicionadas dentro dele */
+    min-height: 80px;
+    margin-top: 10px;
+}
+
+.card {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 50px;
+    height: 70px;
+    padding-top: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    
+    /* NOVO: Posicionamento absoluto e transição */
+    position: absolute;
+    top: 0;
+    left: 0; /* JS vai ajustar o 'left' para empilhar */
+    opacity: 1;
+    /* Transição para 'transform' (movimento) e 'opacity' (fade) */
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    z-index: 100; /* Fica acima de tudo durante a animação */
+}
+
+.card.hidden {
+    background-color: #bb0000;
+    color: #bb0000;
+    border-color: black;
+}
+
+/* --- BOTÕES DE AÇÃO (Hit/Stand/Double) --- */
+.controls {
+    display: none; /* JS vai mudar para 'flex' */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.controls button {
+    flex-basis: 45%;
+    padding: 8px;
+    font-size: 0.9em;
+}
+
+.btn-double {
+    background-color: #007bff;
+    color: white;
+    flex-basis: 92%; 
+}
+.btn-double:hover {
+    background-color: #0056b3;
+}
+.btn-double:disabled {
+    background-color: #555;
+    color: #aaa;
+}
+
+
+/* Botão de Próxima Ação (Principal) */
+#btn-next-action {
+    background-color: #c00;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 20px;
+    z-index: 10; /* Garante que fica acima de qualquer carta */
+    position: relative;
+}
+
+#btn-next-action:hover {
+    background-color: #a00;
+}
+
+#game-status {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    min-height: 30px;
+    z-index: 10;
+    position: relative;
+}
+
+
+/* --- ANIMAÇÕES (FLIP, WIN, LOSE, BUST) --- */
+@keyframes flipReveal {
+    from { transform: rotateY(180deg); opacity: 0.5; }
+    to { transform: rotateY(0deg); opacity: 1; }
+}
+.card.flip-reveal {
+    animation: flipReveal 0.6s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.player-area.busted-effect {
+    animation: shake 0.5s;
+    background-color: #8b0000;
+}
+
+@keyframes glow-green {
+  from { box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+  to { box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
+}
+
+.player-area.win-effect {
+    animation: glow-green 1s ease-in-out 2 alternate;
+    background-color: #004d00;
+}
+
+@keyframes glow-red {
+  from { box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+  to { box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000; }
+}
+
+.player-area.lose-effect {
+    animation: glow-red 1s ease-in-out 2 alternate;
+    background-color: #5d0000;
+}
+
+
+/* --- CSS DE RESPONSIVIDADE (CELULARES) --- */
+@media (max-width: 768px) {
+    body { padding: 10px; }
+    #setup-screen { max-width: 95%; padding: 15px; margin: 10px auto; }
+    #setup-screen input { width: 90%; }
+
+    #players-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .player-area {
+        min-width: 0;
+        width: 90%;
+        margin: 10px 0;
+        min-height: 200px;
+    }
+    .card {
+        width: 45px;
+        height: 65px;
+        font-size: 1em;
+    }
+    
+    /* NOVO: Ajusta o baralho no celular */
+    #deck {
+        width: 47px;
+        height: 67px;
+        top: 10px;
+        right: 10px;
+    }
+
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.3em; }
+
+    button, .controls button {
+        flex-basis: auto; 
+        width: 90%;
+        padding: 12px;
+        margin: 5px auto;
+    }
+    #btn-next-action, #btn-setup-start {
+        font-size: 1.1em;
+        padding: 15px;
+    }
+
+    .chip {
+        width: 40px;
+        height: 40px;
+        font-size: 0.6em;
+    }
+}
